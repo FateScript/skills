@@ -1,5 +1,5 @@
 interface:
-  display_name: "实现工作"
+  display_name: "implement"
   short_description: "根据 spec 或 tickets 构建功能"
 policy:
   allow_implicit_invocation: false

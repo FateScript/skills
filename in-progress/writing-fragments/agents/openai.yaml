@@ -1,5 +1,5 @@
 interface:
-  display_name: "Writing Fragments"
+  display_name: "writing-fragments"
   short_description: "Mine raw writing fragments"
 policy:
   allow_implicit_invocation: false

@@ -1,5 +1,5 @@
 interface:
-  display_name: "问题分流"
+  display_name: "triage"
   short_description: "推动 issues 完成 triage"
 policy:
   allow_implicit_invocation: false

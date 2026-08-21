@@ -1,5 +1,5 @@
 interface:
-  display_name: "规划路径"
+  display_name: "wayfinder"
   short_description: "把大型工作映射为决策 tickets"
 policy:
   allow_implicit_invocation: false

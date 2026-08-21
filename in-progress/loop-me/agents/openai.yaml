@@ -1,5 +1,5 @@
 interface:
-  display_name: "Loop Me"
+  display_name: "loop-me"
   short_description: "Spec the workflows you want to build"
 policy:
   allow_implicit_invocation: false

@@ -1,5 +1,5 @@
 interface:
-  display_name: "改进代码库架构"
+  display_name: "improve-codebase-architecture"
   short_description: "发现并追问架构改进机会"
 policy:
   allow_implicit_invocation: false

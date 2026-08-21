@@ -1,5 +1,5 @@
 interface:
-  display_name: "整理为规格"
+  display_name: "to-spec"
   short_description: "把对话整理成 spec"
 policy:
   allow_implicit_invocation: false
