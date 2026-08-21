@@ -1,0 +1,3 @@
+interface:
+  display_name: "代理文档写作"
+  short_description: "编写代理读取和执行的文档"

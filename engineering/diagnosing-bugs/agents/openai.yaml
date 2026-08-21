@@ -1,0 +1,3 @@
+interface:
+  display_name: "问题诊断"
+  short_description: "诊断困难 bug 和性能回归"

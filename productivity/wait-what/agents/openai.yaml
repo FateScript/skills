@@ -1,0 +1,5 @@
+interface:
+  display_name: "重新说明"
+  short_description: "用更简单的方式补充上下文并重讲"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,5 @@
+interface:
+  display_name: "整理为规格"
+  short_description: "把对话整理成 spec"
+policy:
+  allow_implicit_invocation: false

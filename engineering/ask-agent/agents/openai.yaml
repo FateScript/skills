@@ -1,0 +1,5 @@
+interface:
+  display_name: "询问 Agent"
+  short_description: "根据当前问题推荐合适的 skill、工作流和下一步"
+policy:
+  allow_implicit_invocation: false
