@@ -14,7 +14,7 @@ usage() {
         'Usage: ./link-skill.sh [kimi|claude|codex] [--dry-run]' \
         '' \
         'Targets:' \
-        '  kimi     ~/.kimi/skills (default)' \
+        '  kimi     ~/.kimi-code/skills (default)' \
         '  claude   ~/.claude/skills' \
         '  codex    ~/.codex/skills' \
         '' \
@@ -51,7 +51,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 case "$TARGET_TYPE" in
     kimi)
-        TARGET_DIR="$HOME/.kimi/skills"
+        TARGET_DIR="$HOME/.kimi-code/skills"
         ;;
     claude)
         TARGET_DIR="$HOME/.claude/skills"
