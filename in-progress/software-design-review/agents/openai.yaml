@@ -1,0 +1,3 @@
+interface:
+  display_name: "Software Design Review"
+  short_description: "Review MRs for complexity and design debt"

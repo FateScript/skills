@@ -118,6 +118,13 @@ ensure_parent_dir() {
     IFS="$old_ifs"
 }
 
+# Keep track of link changes so the final summary can show exactly which
+# skills were added or updated.  These are intentionally separate from the
+# per-skill log lines below: the latter are useful while the script runs,
+# while the summary gives a quick overview once linking is complete.
+added_skills=()
+updated_skills=()
+
 link_skill() {
     local skill_dir="$1"
     local rel_path="${skill_dir#"$SCRIPT_DIR"/}"
@@ -134,12 +141,12 @@ link_skill() {
         local current_target
         current_target="$(readlink "$target_link")"
         if [ "$current_target" = "$skill_dir" ]; then
-            printf 'Unchanged: %s\n' "$rel_path"
             return 0
         fi
         run rm -f "$target_link"
         run ln -s "$skill_dir" "$target_link"
-        printf 'Updated:   %s\n' "$rel_path"
+        updated_skills+=("$rel_path")
+        printf 'Updated:   🔄 %s\n' "$rel_path"
         return 0
     fi
 
@@ -149,7 +156,8 @@ link_skill() {
     fi
 
     run ln -s "$skill_dir" "$target_link"
-    printf 'Created:   %s\n' "$rel_path"
+    added_skills+=("$rel_path")
+    printf 'Created:   🆕 %s\n' "$rel_path"
 }
 
 printf 'Linking %s skills\n' "$TARGET_TYPE"
@@ -198,6 +206,25 @@ done < <(
 if [ "$skill_count" -eq 0 ]; then
     printf 'No skills found under %s\n' "$SCRIPT_DIR"
     exit 1
+fi
+
+printf '\nChanges:\n'
+printf 'Added skills (%d):\n' "${#added_skills[@]}"
+if [ "${#added_skills[@]}" -eq 0 ]; then
+    printf '  (none)\n'
+else
+    for skill in "${added_skills[@]}"; do
+        printf '  %s\n' "$skill"
+    done
+fi
+
+printf 'Updated skills (%d):\n' "${#updated_skills[@]}"
+if [ "${#updated_skills[@]}" -eq 0 ]; then
+    printf '  (none)\n'
+else
+    for skill in "${updated_skills[@]}"; do
+        printf '  %s\n' "$skill"
+    done
 fi
 
 printf '\nDone. Linked %d skill(s).\n' "$skill_count"

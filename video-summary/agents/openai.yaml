@@ -1,0 +1,4 @@
+interface:
+  display_name: "视频总结"
+  short_description: "获取 YouTube 与 B 站字幕并生成中文总结"
+  default_prompt: "使用 $video-summary 获取这个 YouTube 或 B 站视频的字幕并生成中文总结。"
