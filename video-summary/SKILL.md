@@ -47,7 +47,7 @@ python3 "$VIDEO_SUMMARY_SKILL_DIR/scripts/fetch_subtitles.py" \
   --languages "zh-Hans,zh-Hant,zh-CN,zh-TW,zh,en"
 ```
 
-脚本先尝试人工字幕，再尝试自动字幕；两种情况都使用 `yt-dlp --skip-download`，不会选择视频格式。成功时会在输出目录写入：
+脚本先尝试人工字幕，再尝试自动字幕；两种情况都使用 `yt-dlp --skip-download`，不会选择视频格式。**禁止使用 `--cookies-from-browser` 或任何读取浏览器凭据/登录态的方式抓取**（会触发系统钥匙串弹窗）；被平台反爬拦截时，只走切换 player client、调整代理、或经用户明确同意的浏览器转写面板等途径。成功时会在输出目录写入：
 
 - `subtitle.srt`：保留时间戳的规范化字幕；
 - `text.txt`：去掉时间戳、适合阅读和总结的纯文本；

@@ -1,0 +1,7 @@
+interface:
+  display_name: "网页知识测验"
+  short_description: "把网页、文章或课程讲义变成可自动评分并解释错题的离线测验"
+  default_prompt: "使用 $quiz 把这份网页内容做成一个快速、可自动评分的中文网页版测验；每题加入‘我不知道’选项，并附错题解释。"
+
+policy:
+  allow_implicit_invocation: true
