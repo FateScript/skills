@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # 改进代码库架构
 
-找出架构摩擦，并提出**加深机会**——将浅模块重构为深模块。目标是提升可测试性和 AI 可导航性。
+找出架构中妨碍开发和维护的地方，并提出**加深机会**——将浅模块重构为深模块。目标是让代码更容易测试，也便于 AI 理解和定位。
 
 这条命令以项目的领域模型为依据，并建立在一套共享的设计词汇之上：
 
-- 调用 Skill 工具并传入 "codebase-design"，获取架构词汇（**module**、**interface**、**depth**、**seam**、**adapter**、**leverage**、**locality**）及其原则（删除测试、“interface is the test surface”、“one adapter = hypothetical seam, two = real”）。每条建议中都必须准确使用这些术语——不要换成 “component”、“service”、“API” 或 “boundary”。
+- 调用 Skill 工具并传入 "codebase-design"，获取架构词汇（**module**、**interface**、**depth**、**seam**、**adapter**、**leverage**、**locality**）及其原则（移除检验、“interface is the test surface”、“one adapter = hypothetical seam, two = real”）。每条建议中都必须准确使用这些术语——不要换成 “component”、“service”、“API” 或 “boundary”。
 - `CONTEXT.md` 中的领域语言为合适的 seam 提供名称；`docs/adr/` 中的 ADR 记录了这条命令不应重新争论的决策。
 
 ## 流程
@@ -24,15 +24,15 @@ disable-model-invocation: true
 
 先读取项目的领域术语表（`CONTEXT.md`），以及所关注区域中的所有 ADR。
 
-然后启动一个 sub-agent 遍历代码库。不要遵循僵硬的启发式规则——自然地探索，并记录你遇到摩擦的地方：
+然后启动一个 sub-agent 遍历代码库。不要遵循僵硬的启发式规则——结合代码实际情况探索，并记录理解或修改起来费劲的地方：
 
 - 理解一个概念是否需要在许多小模块之间反复跳转？
 - 哪些模块很**浅**——interface 几乎和 implementation 一样复杂？
 - 哪些地方只是为了便于测试而提取了纯函数，但真正的 bug 隐藏在这些函数的调用方式中（缺乏 **locality**）？
-- 哪些紧密耦合的模块会跨越各自的 seam 泄漏？
+- 哪些紧密耦合的模块会跨过各自的 seam 暴露内部细节？
 - 代码库的哪些部分没有测试，或很难通过现有 interface 测试？
 
-对任何疑似浅模块应用**删除测试**：删除它以后，复杂度会集中起来，还是只会转移到别处？你要寻找的信号是“是的，复杂度会集中起来”。
+对任何疑似浅模块应用**移除检验**：假设移除它以后，复杂度会集中起来，还是只会转移到别处？你要寻找的信号是“是的，复杂度会集中起来”。
 
 ### 2. 将候选项呈现为 HTML 报告
 
@@ -43,7 +43,7 @@ disable-model-invocation: true
 为每个候选项渲染一张卡片，其中包含：
 
 - **文件**——涉及哪些文件/模块
-- **问题**——当前架构为何造成摩擦
+- **问题**——当前架构为何妨碍开发或维护
 - **解决方案**——用通俗语言说明将要改变什么
 - **收益**——用 locality 和 leverage 解释收益，并说明测试会如何改善
 - **重构前/后图示**——并排放置的自定义图，展示当前模块为何浅，以及将如何加深
@@ -53,7 +53,7 @@ disable-model-invocation: true
 
 **领域内容使用 CONTEXT.md 的词汇，架构内容使用 `/codebase-design` 的词汇。** 如果 `CONTEXT.md` 定义了 “Order”，就应写 “the Order intake module”——不要写 “the FooBarHandler”，也不要写 “the Order service”。
 
-**与 ADR 冲突时**：如果某个候选项与现有 ADR 矛盾，只有当摩擦真实且严重到值得重新审视该 ADR 时，才把它列出来。在卡片中清楚标记这一点（例如使用警告提示：_“contradicts ADR-0007 — but worth reopening because…”_）。不要列出 ADR 所禁止的每一种理论重构。
+**与 ADR 冲突时**：如果某个候选项与现有 ADR 矛盾，只有当问题确实存在，且严重到值得重新审视该 ADR 时，才把它列出来。在卡片中清楚标记这一点（例如使用警告提示：_“contradicts ADR-0007 — but worth reopening because…”_）。不要列出 ADR 所禁止的每一种理论重构。
 
 完整的 HTML 脚手架、图表模式和样式指南参见 [HTML-REPORT.md](HTML-REPORT.md)。
 
@@ -63,7 +63,7 @@ disable-model-invocation: true
 
 用户选择一个候选项后，调用 Skill 工具并传入 "grilling"，与用户一起走完决策树——约束、依赖、加深后模块的形态、seam 后面放什么、哪些测试会保留下来。
 
-随着决策逐渐明确，相关副作用应当场发生——调用 Skill 工具并传入 "domain-modeling"，在推进过程中持续更新领域模型：
+随着决策逐渐明确，相关文档也要同步更新——调用 Skill 工具并传入 "domain-modeling"，在推进过程中持续更新领域模型：
 
 - **要用 `CONTEXT.md` 中不存在的概念为加深后的模块命名？** 将该术语加入 `CONTEXT.md`。如果文件不存在，就按需创建。
 - **在对话中明确了一个模糊术语？** 当场更新 `CONTEXT.md`。

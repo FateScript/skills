@@ -1,6 +1,6 @@
 ---
 name: to-tickets
-description: 将计划、spec 或当前对话拆分成一组 tracer-bullet tickets，每张 ticket 都声明其阻塞边，并发布到已配置的 tracker——本地模式下，每张 ticket 一个文件并用文本表达边；真实 tracker 上则使用原生阻塞链接。
+description: 将计划、spec 或当前对话拆分成一组 tracer-bullet tickets，每张 ticket 都声明其阻塞边，并发布到已配置的 tracker——本地模式下，每张 ticket 一个文件并用文本表达边；在线 tracker 上则使用原生阻塞链接。
 disable-model-invocation: true
 ---
 
@@ -18,7 +18,7 @@ issue tracker 和 triage label 词汇应已提供给你。如果没有，告诉�
 
 ### 2. 探索代码库（可选）
 
-如果还没有探索代码库，就先探索，以理解代码的当前状态。Ticket 标题和描述应使用项目领域术语表的词汇，并遵守所触及区域中的 ADR。
+如果还没有探索代码库，就先探索，以理解代码的当前状态。Ticket 标题和描述应使用项目领域术语表的词汇，并遵守相关部分的 ADR。
 
 寻找预先重构代码的机会，让后续实现更容易。“先让改动变得容易，再完成这个容易的改动。”
 
@@ -30,14 +30,14 @@ issue tracker 和 triage label 词汇应已提供给你。如果没有，告诉�
 
 - 每个切片都要穿过所有层（schema、API、UI、tests），形成一条狭窄但**完整**的路径——必须是垂直切片，**不能**是单层的水平切片
 - 每个完成的切片都能独立演示或验证
-- 每个切片的规模都应能放进一个全新的 context window
+- 每个切片都应能在一次全新的会话中完成，不超出其 context window
 - 所有预先重构都应首先完成
 
 </vertical-slice-rules>
 
 为每张 ticket 指定其**阻塞边**——它开始前必须先完成的其他 tickets。没有 blockers 的 ticket 可以立即开始。
 
-**大范围重构是垂直切片的例外。** **大范围重构**是某个机械性变更——例如重命名一列或重新定义共享符号的类型——其**爆炸半径**扩散到整个代码库，导致一次编辑同时破坏数千个调用点，任何垂直切片都无法在保持绿色的情况下落地。不要强行把它塞进 tracer bullet；应按 **expand–contract** 排序。先 expand：在旧形式旁加入新形式，保证一切仍可工作。然后根据爆炸半径将调用点分批迁移（按 package、按目录），每一批都是一张被 expand ticket 阻塞的独立 ticket；由于旧形式仍然存在，每批之间 CI 都保持绿色。最后 contract：在没有调用方继续使用旧形式后将其删除；这张 ticket 被所有迁移批次阻塞。如果连单独的迁移批次都无法保持绿色，则保留这个顺序，但让它们共享一个 integration branch，并全部阻塞最终的 integrate-and-verify ticket——只承诺在那里恢复绿色。
+**大范围重构是垂直切片的例外。** **大范围重构**是某个机械性变更——例如重命名一列或重新定义共享符号的类型——其**影响范围**扩散到整个代码库，导致一次编辑同时破坏数千个调用点，任何垂直切片都无法在保证检查通过的前提下完成。不要强行把它塞进 tracer bullet；应按 **expand–contract** 排序。先 expand：在旧形式旁加入新形式，保证一切仍可工作。然后根据影响范围将调用点分批迁移（按 package、按目录），每一批都是一张被 expand ticket 阻塞的独立 ticket；由于旧形式仍然存在，每批之间 CI 都能通过。最后 contract：在没有调用方继续使用旧形式后将其删除；这张 ticket 被所有迁移批次阻塞。如果连单独的迁移批次都无法保证检查通过，则保留这个顺序，但让它们共享一个 integration branch，并全部阻塞最终的 integrate-and-verify ticket——只承诺在那里让检查全部通过。
 
 ### 4. 询问用户
 
@@ -60,7 +60,7 @@ issue tracker 和 triage label 词汇应已提供给你。如果没有，告诉�
 发布批准后的 tickets。具体**方式**取决于 `/setup-matt-pocock-skills` 配置的 tracker——tickets 本身相同，只有阻塞边的表达形式不同：
 
 - **本地文件** → 在 `.scratch/<feature-slug>/issues/<NN>-<slug>.md` 下为每张 ticket 写一个文件，从 `01` 开始按依赖顺序编号（blockers 在前）。每个文件的 “Blocked by” 列出它依赖的编号/标题。使用下面的单 ticket 文件模板——每个文件只放一张 ticket，绝不要写成一个合并文件。
-- **真实 issue tracker（GitHub、Linear 等）** → 按依赖顺序为每张 ticket 发布一个 issue（blockers 在前），这样每张 ticket 的阻塞边都能引用真实标识符。平台支持原生 blocking / sub-issue 关系时就使用它；否则，将每张 ticket 的 “Blocked by” 设置为会阻塞它的 issues。除非另有指示，否则应用 `ready-for-agent` triage label——这些 tickets 生来就可由 agent 接手。
+- **在线 issue tracker（GitHub、Linear 等）** → 按依赖顺序为每张 ticket 发布一个 issue（blockers 在前），这样每张 ticket 的阻塞边都能引用真实标识符。平台支持原生 blocking / sub-issue 关系时就使用它；否则，将每张 ticket 的 “Blocked by” 设置为会阻塞它的 issues。除非另有指示，否则应用 `ready-for-agent` triage label——这些 tickets 已经具备由 agent 接手的条件。
 
 推进**前沿**：所有 blockers 都已完成的 ticket 都位于前沿。对于纯线性链，这意味着从上到下依次处理。
 
@@ -102,4 +102,4 @@ issue tracker 和 triage label 词汇应已提供给你。如果没有，告诉�
 
 </issue-template>
 
-无论采用哪种形式，都不要写具体文件路径或代码片段——它们很快会过时。例外：如果 prototype 产出的某个片段比文字更精确地编码了一项决策（状态机、reducer、schema、type shape），可以将它内联，并简短注明它来自 prototype。只保留富含决策的部分——不是可运行的 demo，只保留重要内容。
+无论采用哪种形式，都不要写具体文件路径或代码片段——它们很快会过时。例外：如果 prototype 产出的某个片段比文字更准确地表达了一项决策（状态机、reducer、schema、type shape），可以将它内联，并简短注明它来自 prototype。只保留表达关键决策所需的片段，无需附上完整、可运行的 demo。

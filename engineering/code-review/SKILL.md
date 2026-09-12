@@ -8,7 +8,7 @@ description: 从一个固定点（commit、branch、tag 或 merge-base）开始�
 - **Standards**——代码是否符合本仓库已记录的编码标准？
 - **Spec**——代码是否忠实实现了原始 issue / spec？
 
-两个维度都由**并行 sub-agent** 处理，以免彼此的 context 相互污染；随后由本技能汇总它们的发现。
+分别由两个**并行 sub-agent** 审查这两个维度，避免相互影响判断；随后由本技能汇总审查结果。
 
 issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker.md`，请让用户运行 `/setup-matt-pocock-skills`。
 
@@ -18,9 +18,9 @@ issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker
 
 用户指定的任何内容都是固定点——commit SHA、branch 名称、tag、`main`、`HEAD~5` 等。如果用户没有指定，就询问。
 
-只记录一次 diff 命令：`git diff <fixed-point>...HEAD`（使用 three-dot，因此比较基准是 merge-base）。同时通过 `git log <fixed-point>..HEAD --oneline` 记录 commit 列表。
+一次性确定并记录本次审查使用的 diff 命令：`git diff <fixed-point>...HEAD`（使用 three-dot，因此比较基准是 merge-base）。同时通过 `git log <fixed-point>..HEAD --oneline` 记录 commit 列表。
 
-继续之前，先确认固定点可以解析（`git rev-parse <fixed-point>`），并且 diff 非空。无效 ref 或空 diff 应当在这里就失败，而不是等到两个并行 sub-agent 内部才失败。
+继续之前，先确认固定点可以解析（`git rev-parse <fixed-point>`），并且 diff 非空。发现 ref 无效或 diff 为空时，应在此处报告并停止，避免两个 sub-agent 启动后才发现问题。
 
 ### 2. 确定规格来源
 
@@ -42,17 +42,17 @@ issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker
 
 每一种 smell 都按“它是什么”→“如何修复”的方式描述；将它们与 diff 对照：
 
-- **Mysterious Name**——函数、变量或类型的名称没有揭示它做什么或保存什么。→ 重命名；如果找不到一个诚实准确的名称，说明设计本身还很模糊。
+- **Mysterious Name**——函数、变量或类型的名称没有揭示它做什么或保存什么。→ 重命名；如果找不到一个准确的名称，说明设计本身还很模糊。
 - **Duplicated Code**——同样的逻辑结构出现在变更中的多个 hunk 或文件里。→ 提取共享结构，并从两处调用。
-- **Feature Envy**——某个 method 访问另一个 object 的数据，多于访问自身的数据。→ 将该 method 移到它所依恋的数据上。
-- **Data Clumps**——同样的几个 field 或 param 总是结伴传递（说明一个 type 正等待被创建）。→ 将它们组合成一个 type，再传递该 type。
+- **Feature Envy**——某个 method 访问另一个 object 的数据，多于访问自身的数据。→ 将该 method 移到它主要访问的数据所属的对象中。
+- **Data Clumps**——同样的几个 field 或 param 总是结伴传递（说明它们适合组成一个 type）。→ 将它们组合成一个 type，再传递该 type。
 - **Primitive Obsession**——使用 primitive 或 string 表示一个本应拥有自身 type 的领域概念。→ 为该概念创建一个小型专用 type。
 - **Repeated Switches**——针对同一个 type 的相同 `switch`/`if` 级联在变更中反复出现。→ 用 polymorphism 替代，或让两处共用同一个 map。
 - **Shotgun Surgery**——一个逻辑变更迫使你在 diff 中分散修改许多文件。→ 将会一起变化的内容聚集到同一个 module 中。
 - **Divergent Change**——一个文件或 module 因为多个互不相关的原因而被修改。→ 拆分它，使每个 module 只因一种原因而变化。
 - **Speculative Generality**——为 spec 并不需要的需求添加 abstraction、parameter 或 hook。→ 删除它；重新内联，直到真正的需求出现。
 - **Message Chains**——调用方依赖了本不该知道的长串 `a.b().c().d()` 导航。→ 将这段遍历隐藏在第一个 object 的某个 method 后面。
-- **Middle Man**——某个 class 或 function 的主要作用只是继续委托。→ 删除中间层，直接调用真正的目标。
+- **Middle Man**——某个 class 或 function 的主要作用只是转发调用。→ 删除中间层，直接调用真正的目标。
 - **Refused Bequest**——某个 subclass 或 implementer 忽略或覆盖了所继承内容中的大部分。→ 放弃 inheritance，改用 composition。
 
 ### 4. 并行启动两个子代理
@@ -73,9 +73,9 @@ issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker
 
 ### 5. 汇总
 
-将两份报告分别放在 `## Standards` 和 `## Spec` 标题下，保持原文或只做轻微清理。**不要**合并或重新排序发现——两个维度是有意分开的（参见_为什么要分成两个维度_）。
+将两份报告分别放在 `## Standards` 和 `## Spec` 标题下，保留原文，或只做少量文字整理。**不要**合并或重新排序发现——两个维度是有意分开的（参见_为什么要分成两个维度_）。
 
-最后用一行总结收尾：每个维度的发现总数，以及该维度内最严重的问题（如果存在）。不要跨维度选出一个总冠军——维度分离正是为了避免这种重新排序。
+最后用一行总结收尾：每个维度的发现总数，以及该维度内最严重的问题（如果存在）。不要把两个维度的问题混在一起选出一个最严重的问题——维度分离正是为了避免这种重新排序。
 
 ## 为什么要分成两个维度
 

@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 推动项目 issue tracker 中的 issues 在一个小型 triage role 状态机中流转。
 
-如果本仓库将外部 pull requests 视为请求入口（参见 issue-tracker 配置），triage 也覆盖它们：**PR 就是附带代码的 issue**——相同 roles、相同 states、相同状态机，只在下文标注“针对 PR”之处存在少量差异。根据 tracker 配置，将裸 `#42` 解析为 issue 或 PR。
+如果本仓库将外部 pull requests 视为请求入口（参见 issue-tracker 配置），triage 也覆盖它们：**PR 就是附带代码的 issue**——使用相同的 roles、states 和状态机，只在下文标注“针对 PR”之处存在少量差异。根据 tracker 配置，将裸 `#42` 解析为 issue 或 PR。
 
 在 triage 期间发布到 issue tracker 的每条评论或 issue **都必须**以这段免责声明开头：
 
@@ -18,14 +18,14 @@ disable-model-invocation: true
 
 ## 参考文档
 
-- [AGENT-BRIEF.md](AGENT-BRIEF.md)——如何编写经久耐用的 agent briefs
+- [AGENT-BRIEF.md](AGENT-BRIEF.md)——如何编写不易过时的 agent briefs
 - [OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)——`.out-of-scope/` 知识库的工作方式
 
 ## 角色
 
 两个**类别** roles：
 
-- `bug`——某些东西坏了
+- `bug`——功能出现故障
 - `enhancement`——新功能或改进
 
 五个**状态** roles：
@@ -67,13 +67,13 @@ Maintainer 调用 `/triage`，用自然语言描述想做什么。理解请求�
 
 ## 分诊某个具体 issue 或 PR
 
-1. **收集上下文。** 完整阅读 issue 或 PR（正文、评论、labels、作者、日期；如果是 PR，还要阅读 diff）。解析此前的所有 triage notes，以免重复询问已经解决的问题。使用项目的领域术语表探索代码库，并遵守所触及区域中的 ADR。针对代码库执行两项检查：(a) **冗余**——按领域概念（而不只是请求的原始措辞）搜索是否已有所请求行为的实现，并报告查找过的位置。如果找到了，就属于已经实现的 `wontfix`（步骤 5）。(b) **此前已拒绝**——读取 `.out-of-scope/*.md`，并指出任何与当前请求相似的内容。
+1. **收集上下文。** 完整阅读 issue 或 PR（正文、评论、labels、作者、日期；如果是 PR，还要阅读 diff）。解析此前的所有 triage notes，以免重复询问已经解决的问题。使用项目的领域术语表探索代码库，并遵守相关部分的 ADR。针对代码库执行两项检查：(a) **冗余**——按领域概念（而不只是请求的原始措辞）搜索是否已有所请求行为的实现，并报告查找过的位置。如果找到了，就属于已经实现的 `wontfix`（步骤 5）。(b) **此前已拒绝**——读取 `.out-of-scope/*.md`，并指出任何与当前请求相似的内容。
 
 2. **给出建议。** 告诉 maintainer 你建议的类别和状态，并说明理由；同时提供与请求相关的简短代码库摘要，包括它是否已经实现。等待指示。
 
-3. **验证主张。** 在任何追问开始前，先检查主张是否成立。对于 bug，按 reporter 提供的步骤复现。对于 PR，确认 diff 确实实现了它声称的内容——checkout 后运行相关 tests 或 commands。报告结果：已确认（附代码路径）、失败，或细节不足（这是强烈的 `needs-info` 信号）。经过确认的验证会让 agent brief 更有力。
+3. **验证主张。** 在任何追问开始前，先检查主张是否成立。对于 bug，按 reporter 提供的步骤复现。对于 PR，确认 diff 确实实现了它声称的内容——checkout 后运行相关 tests 或 commands。报告结果：已确认（附代码路径）、失败，或细节不足（这是强烈的 `needs-info` 信号）。验证结果能为 agent brief 提供可靠依据。
 
-4. **追问（如需要）。** 如果请求需要进一步明确，就调用 Skill tool 两次，分别传入 “grilling” 和 “domain-modeling”——每轮提出一组问题，逐步将请求打磨成形；随着决策落定，精化领域术语，并内联更新 `CONTEXT.md`/ADRs。
+4. **追问（如需要）。** 如果请求需要进一步明确，就调用 Skill tool 两次，分别传入 “grilling” 和 “domain-modeling”——每轮提出一组问题，逐步将请求打磨成形；随着决策落定，明确领域术语，并同步更新 `CONTEXT.md`/ADRs。
 
 5. **应用结果：**
    - `ready-for-agent`——发布一条 agent brief 评论（[AGENT-BRIEF.md](AGENT-BRIEF.md)）。
