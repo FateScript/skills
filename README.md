@@ -1,6 +1,10 @@
+### 来源
+
+本仓库部分 skills 改编自 [mattpocock/skills](https://github.com/mattpocock/skills)，保留中文翻译和个人定制；使用 `ask-agent` 替代上游的 `ask-matt`。
+
 ### 工程
 
-日常代码工作技能。本个人技能集合使用 `ask-agent` 作为路由入口，不同步 `ask-matt`。
+日常代码工作技能。
 
 **手动调用：**
 
