@@ -1,0 +1,3 @@
+interface:
+  display_name: "文章分析"
+  short_description: "提炼文章要点、行动建议和专家评论"

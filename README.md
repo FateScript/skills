@@ -4,6 +4,9 @@
 
 上游技能内容已按 `mattpocock/skills@5beb35b`（2026-10-19）同步。上游的安装器、issue tracker 配置和文档站点不属于此个人技能仓库。
 
+`article-summarizer` ，`article-summarizer-2mins` 和 `book-summarizer` 改编自 anarefin 的 [Article Summarizer（SkillMD）](https://skillmd.com/skills/anarefin/article-summarizer)
+
+
 ### 工程
 
 日常代码工作技能。
@@ -39,6 +42,9 @@
 
 - **[grill-me](./productivity/grill-me/SKILL.md)** - 围绕计划或设计持续追问，直到每个决策分支都被澄清。
 - **[grilling](./productivity/grilling/SKILL.md)** - 通用的设计树追问引擎，按轮次压力测试计划、决策或想法。
+- **[article-summarizer](./productivity/article-summarizer/SKILL.md)** - 深读文章并整理摘要、关键要点、行动建议和领域专家评论。
+- **[article-summarizer-2mins](./productivity/article-summarizer-2mins/SKILL.md)** - 不追问领域视角，直接给出文章的两分钟速读版。
+- **[book-summarizer](./productivity/book-summarizer/SKILL.md)** - 将 PDF 书籍整理成带章节导航、术语和复习题的中文 HTML 学习指南。
 - **[handoff](./productivity/handoff/SKILL.md)** - 将当前对话压缩成交接文档，方便另一个 agent 继续工作。
 - **[teach](./productivity/teach/SKILL.md)** - 在当前工作区内，通过多次会话教授用户一项技能或概念。
 - **[wait-what](./productivity/wait-what/SKILL.md)** - 当上一条消息没有讲清时，用更简单的语言和上下文重新说明。

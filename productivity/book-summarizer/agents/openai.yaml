@@ -1,0 +1,3 @@
+interface:
+  display_name: "PDF 书籍学习指南"
+  short_description: "将整本 PDF 书整理成可交互的逐章 HTML 指南"
