@@ -9,6 +9,8 @@ description: 根据当前问题、目标和工作阶段，推荐合适的 skill 
 
 ## 路由方法
 
+说明某项 skill 的职责或建议跳过其步骤前，先读取该 skill 的 `SKILL.md`；下文摘要只用于定位。
+
 1. **先判断状态，再匹配词。** 从对话和工作区读取必要事实：用户是在探索想法、做决策、实现、调试、审查，还是在处理一项已经进行中的工作。不要只因为某个词出现就选一项 skill。
 2. **只给一个主推荐。** 可再给一个备选或下一步，但不要罗列一长串名单让用户自己猜。每个推荐都说明它解决的问题和何时切换。
 3. **将多个 skill 组成顺序。** 如果用户要走一条工作流程，按阶段给出顺序，并标明每一步的产物如何解锁下一步。
@@ -20,12 +22,12 @@ description: 根据当前问题、目标和工作阶段，推荐合适的 skill 
 
 这是大多数功能开发请求的默认路径：
 
-`grill-with-docs` → `to-spec` → `to-tickets` → `implement` → `code-review`
+`grill-with-docs` → `to-spec` → `to-tickets` → `implement` 或 `implement-spec` → `code-review` → `retro`
 
 - 还在澄清想法时，在仓库中推荐 `grill-with-docs`；没有工作目录时推荐 `grill-me`。
 - 讨论已足够清楚、需要多次会话才能完成时，用 `to-spec` 固化讨论，再用 `to-tickets` 切成可独立交付的垂直切片。
-- 工作已经定义好、不值得再做规划时，直接推荐 `implement`。`implement` 内部会按需要使用 `tdd`，完成后使用 `code-review` 。
-- 只想先写测试来构建一个具体行为时，单独推荐 `tdd`；已有分支或 PR 需要审查时，单独推荐 `code-review` 。
+- 工作已经定义好、不值得再做规划时，直接推荐 `implement`；整份 spec 的 tickets 可并行推进时，推荐 `implement-spec` 在集成分支上协调实现。`implement` 内部会按需要使用 `tdd`，完成后使用 `code-review` 。
+- 只想先写测试来构建一个具体行为时，单独推荐 `tdd`；已有分支或 PR 需要审查时，单独推荐 `code-review`；编写 PR 正文时使用 `pr`，编码结束后可用 `retro` 复盘代理环境。
 
 ## 入口匝道
 
@@ -42,7 +44,10 @@ description: 根据当前问题、目标和工作阶段，推荐合适的 skill 
 | 问题形态 | 推荐 skill |
 | --- | --- |
 | 只需要通用追问引擎，不需要仓库记录或无状态包装 | `grilling` |
-| 需要统一领域术语、编写 `CONTEXT.md` 或 ADR | `domain-modeling` |
+| 需要统一领域术语、编写 `GLOSSARY.md` 或 ADR | `domain-modeling` |
+| 要编写 PR 正文并展示变更证据 | `pr` |
+| 要复盘编码会话并改善后续代理环境 | `retro` |
+| 要协调长期目标和子代理并维护知识 wiki | `chief-of-staff` |
 | 需要设计深模块、选择 interface 或 seam | `codebase-design` |
 | 要查找官方文档、API 或规范事实 | `research` |
 | 正处于 git merge/rebase 冲突 | `resolving-merge-conflicts` |

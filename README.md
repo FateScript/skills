@@ -2,6 +2,8 @@
 
 本仓库部分 skills 改编自 [mattpocock/skills](https://github.com/mattpocock/skills)，保留中文翻译和个人定制；使用 `ask-agent` 替代上游的 `ask-matt`。
 
+上游技能内容已按 `mattpocock/skills@5beb35b`（2026-10-19）同步。此仓库保留 `resolving-merge-conflicts` 作为本地定制；上游从 v1.3.0 起将其归档，认为代理无需专门技能即可处理冲突。上游的安装器、issue tracker 配置和文档站点不属于此个人技能仓库。
+
 ### 工程
 
 日常代码工作技能。
@@ -9,12 +11,14 @@
 **手动调用：**
 
 - **[ask-agent](./engineering/ask-agent/SKILL.md)** - 根据当前问题、目标和工作阶段，推荐合适的 skill 或组合工作流程。
-- **[grill-with-docs](./engineering/grill-with-docs/SKILL.md)** - 通过持续追问打磨计划或设计，并同步建立领域术语、`CONTEXT.md` 和 ADR。
+- **[grill-with-docs](./engineering/grill-with-docs/SKILL.md)** - 通过持续追问打磨计划或设计，并同步建立领域术语、`GLOSSARY.md` 和 ADR。
 - **[triage](./engineering/triage/SKILL.md)** - 按状态机分类、验证和处理 issue 或外部 PR，生成 agent brief。
 - **[improve-codebase-architecture](./engineering/improve-codebase-architecture/SKILL.md)** - 扫描代码库，找出将浅模块加深的架构机会，并生成可视化报告。
 - **[to-spec](./engineering/to-spec/SKILL.md)** - 把已有对话综合成 spec，并发布到 issue tracker。
 - **[to-tickets](./engineering/to-tickets/SKILL.md)** - 把计划或 spec 拆成可独立交付的 tracer-bullet tickets，标注阻塞关系。
 - **[implement](./engineering/implement/SKILL.md)** - 根据 spec 或 tickets 实现功能，结合 TDD，完成后做 code review 并提交。
+- **[implement-spec](./engineering/implement-spec/SKILL.md)** - 在集成分支上协调子代理，实现整份 spec 的 tickets。
+- **[retro](./engineering/retro/SKILL.md)** - 复盘编码会话，提出改善代理工作环境的建议。
 - **[wayfinder](./engineering/wayfinder/SKILL.md)** - 为大于单次会话容量的大型工作建立决策地图，逐项解决前置决策。
 
 **模型可自动调用：**
@@ -22,8 +26,9 @@
 - **[prototype](./engineering/prototype/SKILL.md)** - 编写一次性原型，快速验证状态模型、业务逻辑或 UI 方案。
 - **[diagnosing-bugs](./engineering/diagnosing-bugs/SKILL.md)** - 用“复现失败 → 缩小范围 → 假设 → 加仪器 → 修复 → 回归测试”的循环诊断困难 bug 和性能回归。
 - **[research](./engineering/research/SKILL.md)** - 查找官方文档、源码和规范等一手资料，将带引用的结论写入 Markdown 文件。
+- **[pr](./engineering/pr/SKILL.md)** - 用图示、前后证据和合并风险编写 PR 正文。
 - **[tdd](./engineering/tdd/SKILL.md)** - 以测试驱动开发，围绕公开接口和约定的 seam 执行 red-green-refactor。
-- **[domain-modeling](./engineering/domain-modeling/SKILL.md)** - 建立和打磨项目领域模型，统一术语，维护 `CONTEXT.md` 与 ADR。
+- **[domain-modeling](./engineering/domain-modeling/SKILL.md)** - 建立和打磨项目领域模型，统一术语，维护 `GLOSSARY.md` 与 ADR。
 - **[codebase-design](./engineering/codebase-design/SKILL.md)** - 设计深模块：用小接口和清晰 seam 隐藏大量实现。
 - **[code-review](./engineering/code-review/SKILL.md)** - 从固定版本点做双轴审查：编码标准和需求/spec。
 - **[resolving-merge-conflicts](./engineering/resolving-merge-conflicts/SKILL.md)** - 逐个冲突块理解双方意图，解决正在进行的 merge/rebase 冲突并完成操作。
@@ -45,6 +50,7 @@
 尚在试用和调整的技能。
 
 - **[loop-me](./in-progress/loop-me/SKILL.md)** - 通过持续追问，把重复发生的生活或工作循环整理成可实现的工作流规格。
+- **[chief-of-staff](./in-progress/chief-of-staff/SKILL.md)** - 协调长期目标、子代理和带来源的知识 wiki。
 - **[writing-fragments](./in-progress/writing-fragments/SKILL.md)** - 在写作探索阶段挖掘和积累原始片段，暂不组织文章结构。
 - **[writing-shape](./in-progress/writing-shape/SKILL.md)** - 从已有原始材料出发，逐段塑造文章的论点、顺序和形式。
 - **[writing-beats](./in-progress/writing-beats/SKILL.md)** - 从已有原始材料出发，以可选路径的节拍方式逐步写成文章。

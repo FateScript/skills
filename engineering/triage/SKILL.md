@@ -73,7 +73,7 @@ Maintainer 调用 `/triage`，用自然语言描述想做什么。理解请求�
 
 3. **验证主张。** 在任何追问开始前，先检查主张是否成立。对于 bug，按 reporter 提供的步骤复现。对于 PR，确认 diff 确实实现了它声称的内容——checkout 后运行相关 tests 或 commands。报告结果：已确认（附代码路径）、失败，或细节不足（这是强烈的 `needs-info` 信号）。验证结果能为 agent brief 提供可靠依据。
 
-4. **追问（如需要）。** 如果请求需要进一步明确，就调用 Skill tool 两次，分别传入 “grilling” 和 “domain-modeling”——每轮提出一组问题，逐步将请求打磨成形；随着决策落定，明确领域术语，并同步更新 `CONTEXT.md`/ADRs。
+4. **追问（如需要）。** 如果请求需要进一步明确，就调用 Skill tool 两次，分别传入 “grilling” 和 “domain-modeling”——每轮提出一组问题，逐步将请求打磨成形；随着决策落定，明确领域术语，并同步更新 `GLOSSARY.md`/ADRs。
 
 5. **应用结果：**
    - `ready-for-agent`——发布一条 agent brief 评论（[AGENT-BRIEF.md](AGENT-BRIEF.md)）。

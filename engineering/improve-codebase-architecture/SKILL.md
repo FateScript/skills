@@ -11,7 +11,7 @@ disable-model-invocation: true
 这条命令以项目的领域模型为依据，并建立在一套共享的设计词汇之上：
 
 - 调用 Skill 工具并传入 "codebase-design"，获取架构词汇（**module**、**interface**、**depth**、**seam**、**adapter**、**leverage**、**locality**）及其原则（移除检验、“interface is the test surface”、“one adapter = hypothetical seam, two = real”）。每条建议中都必须准确使用这些术语——不要换成 “component”、“service”、“API” 或 “boundary”。
-- `CONTEXT.md` 中的领域语言为合适的 seam 提供名称；`docs/adr/` 中的 ADR 记录了这条命令不应重新争论的决策。
+- `GLOSSARY.md` 中的领域语言为合适的 seam 提供名称；`docs/adr/` 中的 ADR 记录了这条命令不应重新争论的决策。
 
 ## 流程
 
@@ -22,7 +22,7 @@ disable-model-invocation: true
 - 如果用户已经指定了方向——某个模块、子系统或痛点——就沿着该方向探索，并跳过下面的推断步骤。
 - 否则，向前回溯足够长的一段提交历史（`git log --oneline`），找出代码库的热点——那些反复出现的文件和区域——并优先关注这些路径。如果变更十分分散，没有明确热点，就扩大扫描范围。
 
-先读取项目的领域术语表（`CONTEXT.md`），以及所关注区域中的所有 ADR。
+先读取项目的领域术语表（`GLOSSARY.md`），以及所关注区域中的所有 ADR。
 
 然后启动一个 sub-agent 遍历代码库。不要遵循僵硬的启发式规则——结合代码实际情况探索，并记录理解或修改起来费劲的地方：
 
@@ -51,7 +51,7 @@ disable-model-invocation: true
 
 在报告末尾添加**首要建议**部分：说明你会优先处理哪个候选项，以及原因。
 
-**领域内容使用 CONTEXT.md 的词汇，架构内容使用 `/codebase-design` 的词汇。** 如果 `CONTEXT.md` 定义了 “Order”，就应写 “the Order intake module”——不要写 “the FooBarHandler”，也不要写 “the Order service”。
+**领域内容使用 GLOSSARY.md 的词汇，架构内容使用 `/codebase-design` 的词汇。** 如果 `GLOSSARY.md` 定义了 “Order”，就应写 “the Order intake module”——不要写 “the FooBarHandler”，也不要写 “the Order service”。
 
 **与 ADR 冲突时**：如果某个候选项与现有 ADR 矛盾，只有当问题确实存在，且严重到值得重新审视该 ADR 时，才把它列出来。在卡片中清楚标记这一点（例如使用警告提示：_“contradicts ADR-0007 — but worth reopening because…”_）。不要列出 ADR 所禁止的每一种理论重构。
 
@@ -65,7 +65,7 @@ disable-model-invocation: true
 
 随着决策逐渐明确，相关文档也要同步更新——调用 Skill 工具并传入 "domain-modeling"，在推进过程中持续更新领域模型：
 
-- **要用 `CONTEXT.md` 中不存在的概念为加深后的模块命名？** 将该术语加入 `CONTEXT.md`。如果文件不存在，就按需创建。
-- **在对话中明确了一个模糊术语？** 当场更新 `CONTEXT.md`。
+- **要用 `GLOSSARY.md` 中不存在的概念为加深后的模块命名？** 将该术语加入 `GLOSSARY.md`。如果文件不存在，就按需创建。
+- **在对话中明确了一个模糊术语？** 当场更新 `GLOSSARY.md`。
 - **用户以关键理由否决了该候选项？** 提议创建一份 ADR，措辞为：_“要我把这记录为 ADR 吗？这样未来的架构审查就不会再次提出它。”_ 只有当未来的探索者确实需要知道该理由，才能避免再次建议同一事项时，才提出这项建议——临时性理由（“现在不值得做”）和不言自明的理由都应跳过。
 - **想为加深后的模块探索其他 interface 方案？** 调用 Skill 工具并传入 "codebase-design"，使用其中 design-it-twice 的并行 sub-agent 模式。

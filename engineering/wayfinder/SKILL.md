@@ -62,7 +62,7 @@ Wayfinder 默认用于**规划**：每张 ticket 解决一项决策；当道路�
 <此 ticket 要解决的决策或调查>
 ```
 
-每张 ticket 都带有一个 `wayfinder:<type>` label——`research`、`prototype`、`grilling`、`task` 之一（参见[任务票类型](#任务票类型)）。
+每张 ticket 都带有一个 `wayfinder:<type>` label——`research`、`prototype`、`grilling`、`task` 之一（参见[任务票类型](#任务票类型)）。地图及其 tickets 只使用 `wayfinder:` labels，不使用 `ready-for-agent` 等 triage label；它们处理的是决策，不是实现工作。
 
 会话在开展任何工作前，**首先**把 ticket 指派给推动地图的 dev，以此**认领**它，让并发会话跳过。这个 assignee _就是_认领标记：开放且无人指派的 ticket 就是未认领 ticket。
 
@@ -111,8 +111,8 @@ Blocking 使用 tracker 的**原生**依赖关系——这至关重要，因为�
 1. **命名目的地。** 调用 Skill tool 两次，分别传入 “grilling” 和 “domain-modeling”，明确这张地图要寻找通往什么的路线——spec、decision 或 change。目的地决定范围，因此必须先确定。
 2. **绘制前沿。** 再次追问，这次采用**广度优先**：向整个空间铺开，而不是深入任何单一线索，找出待定决策以及现在就能采取的第一步。**如果这一步没有发现迷雾**——通往目的地的道路已经清晰，整个旅程小到一次会话即可完成——就不需要地图。停止，并询问用户想如何继续。
 3. **创建地图**（label 为 `wayfinder:map`）：填好目的地和备注，到目前为止的决策保持为空，并把迷雾勾勒在**尚未明确**中。
-4. **把目前能够明确描述的内容创建成 tickets**，作为地图的 child issues——然后在**第二轮**连好 blocking edges（issues 必须先有 ids，才能互相引用）。连边会把它们分入前沿和被阻塞集合；所有尚无法明确描述的内容都留在迷雾中——也就是**尚未明确**小节。
-5. **启动 research subagents。** 对刚刚创建的每一张 `research` ticket，启动一个 subagent，让它调用 Skill tool 并传入 “research”，并行解决该 ticket；将研究结果捕获到一次性的 `research/<name>` branch，并从 ticket 留下 context pointer。
+4. **把目前能够明确描述的内容创建成 tickets**，作为地图的 child issues——然后在**第二轮**连好 blocking edges（issues 必须先有 ids，才能互相引用）。同一轮还要用真实 issue ID 写入交叉引用；占位的 `#<n>` 会错误链接到其他 issue。连边会把它们分入前沿和被阻塞集合；所有尚无法明确描述的内容都留在迷雾中——也就是**尚未明确**小节。
+5. **启动 research subagents。** 对刚刚创建的每一张 `research` ticket，启动一个 subagent，让它调用 Skill tool 并传入 “research”，并行解决该 ticket；将研究结果捕获到一次性的 `research/<name>` branch，并从 ticket 留下 context pointer。推送该分支，但不要创建 PR；这个分支不会合并。
 6. 停止——绘图就是一个会话的工作；它本身不手动解决任何 ticket。
 
 ### 沿地图推进
@@ -121,7 +121,7 @@ Blocking 使用 tracker 的**原生**依赖关系——这至关重要，因为�
 
 1. 加载**地图**——路线概览，而不是每张 ticket 的完整正文。
 2. 选择 ticket。如果用户点名了某张，就使用它；否则按顺序选择第一张前沿 ticket。**认领它**：开始任何工作前，先把它指派给自己。
-3. 解决它——**按需放大**：需要时获取任何相关或已关闭 ticket 的完整正文；调用 `## 备注` 区块中点名的 skills 对应的 Skill 工具。如果不确定，就调用 Skill 工具两次，分别传入 “grilling” 和 “domain-modeling”。
+3. 按 `wayfinder:<type>` label 指定的类型解决它（参见[任务票类型](#任务票类型)）；必须读取 label，正文不会说明类型。**按需放大**：需要时获取任何相关或已关闭 ticket 的完整正文；调用 `## 备注` 区块中点名的 skills 对应的 Skill 工具。如果不确定，就调用 Skill 工具两次，分别传入 “grilling” 和 “domain-modeling”。
 4. 记录解决结果：将答案发布为一条**解决评论**，**关闭** issue，并向地图的“到目前为止的决策”追加一条 context pointer。
 5. 添加新浮现的 tickets（先创建，后连边）；将答案已使其变得可明确描述的迷雾转化为 tickets，并从**尚未明确**中移除每一块已转化的迷雾，让它只存在于新 ticket 中。如果答案揭示某张 ticket——当前这张或其他 ticket——位于目的地之外，就将其**判定为范围之外**，而不是作为路线上的一步解决。如果该决策使地图其他部分失效，更新或删除相应 tickets。
 

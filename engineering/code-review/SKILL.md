@@ -10,7 +10,7 @@ description: 从一个固定点（commit、branch、tag 或 merge-base）开始�
 
 分别由两个**并行 sub-agent** 审查这两个维度，避免相互影响判断；随后由本技能汇总审查结果。
 
-issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker.md`，请让用户运行 `/setup-matt-pocock-skills`。
+issue tracker 应当已经提供给你。如果没有提供 tracker 配置，请让用户运行 `/setup-matt-pocock-skills`。
 
 ## 流程
 
@@ -26,14 +26,14 @@ issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker
 
 按以下顺序查找原始 spec：
 
-1. commit message 中的 issue 引用（`#123`、`Closes #45`、GitLab `!67` 等）——按照 `docs/agents/issue-tracker.md` 中的工作流获取。
+1. commit message 中的 issue 引用（`#123`、`Closes #45`、GitLab `!67` 等）——按照 tracker 文档中的工作流获取。
 2. 用户作为参数传入的路径。
 3. `docs/`、`specs/` 或 `.scratch/` 下与 branch 名称或 feature 匹配的 spec 文件。
 4. 如果仍未找到，询问用户 spec 在哪里。如果用户表示没有 spec，则跳过 **Spec** sub-agent，并报告“没有可用的 spec”。
 
 ### 3. 确定标准来源
 
-查找仓库中说明代码应当如何编写的所有内容，例如 `CODING_STANDARDS.md` 或 `CONTRIBUTING.md`。
+搜索仓库中所有说明代码应当如何编写的文件；如果存在 `CODING_STANDARDS.md` 或 `CONTRIBUTING.md`，必须将它们列入来源。
 
 除了仓库自身记录的内容之外，Standards 维度始终还要带上下面的**坏味道基线**——这是一组固定的 Fowler code smells（_Refactoring_，第 3 章），即使仓库没有记录任何标准也适用。它受两条规则约束：
 
@@ -56,6 +56,8 @@ issue tracker 应当已经提供给你。如果缺少 `docs/agents/issue-tracker
 - **Refused Bequest**——某个 subclass 或 implementer 忽略或覆盖了所继承内容中的大部分。→ 放弃 inheritance，改用 composition。
 
 ### 4. 并行启动两个子代理
+
+同时发起两个前台子代理调用，等待两份报告返回后再汇总。
 
 **Standards sub-agent 的 prompt**——包含：
 

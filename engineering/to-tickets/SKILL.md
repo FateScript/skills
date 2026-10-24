@@ -60,7 +60,7 @@ issue tracker 和 triage label 词汇应已提供给你。如果没有，告诉�
 发布批准后的 tickets。具体**方式**取决于 `/setup-matt-pocock-skills` 配置的 tracker——tickets 本身相同，只有阻塞边的表达形式不同：
 
 - **本地文件** → 在 `.scratch/<feature-slug>/issues/<NN>-<slug>.md` 下为每张 ticket 写一个文件，从 `01` 开始按依赖顺序编号（blockers 在前）。每个文件的 “Blocked by” 列出它依赖的编号/标题。使用下面的单 ticket 文件模板——每个文件只放一张 ticket，绝不要写成一个合并文件。
-- **在线 issue tracker（GitHub、Linear 等）** → 按依赖顺序为每张 ticket 发布一个 issue（blockers 在前），这样每张 ticket 的阻塞边都能引用真实标识符。平台支持原生 blocking / sub-issue 关系时就使用它；否则，将每张 ticket 的 “Blocked by” 设置为会阻塞它的 issues。除非另有指示，否则应用 `ready-for-agent` triage label——这些 tickets 已经具备由 agent 接手的条件。
+- **在线 issue tracker（GitHub、Linear 等）** → 按依赖顺序为每张 ticket 发布一个 issue（blockers 在前），这样每张 ticket 的阻塞边都能引用真实标识符。平台支持原生 blocking 关系时就使用它；否则，将每张 ticket 的 “Blocked by” 设置为会阻塞它的 issues。如果来源是已有 issue，则按 tracker 文档中的操作将每张 ticket 设为其 sub-issue。除非另有指示，否则应用 `ready-for-agent` triage label——这些 tickets 已经具备由 agent 接手的条件。
 
 推进**前沿**：所有 blockers 都已完成的 ticket 都位于前沿。对于纯线性链，这意味着从上到下依次处理。
 
@@ -98,7 +98,7 @@ issue tracker 和 triage label 词汇应已提供给你。如果没有，告诉�
 
 ## 被哪些任务票阻塞
 
-- 指向每张阻塞 ticket 的引用，或写“无——可以立即开始”。
+- 指向每张阻塞 ticket 的引用，或写“无——可以立即开始”。若已设置原生阻塞关系，省略本节。
 
 </issue-template>
 
