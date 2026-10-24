@@ -50,7 +50,6 @@ description: 根据当前问题、目标和工作阶段，推荐合适的 skill 
 | 要协调长期目标和子代理并维护知识 wiki | `chief-of-staff` |
 | 需要设计深模块、选择 interface 或 seam | `codebase-design` |
 | 要查找官方文档、API 或规范事实 | `research` |
-| 正处于 git merge/rebase 冲突 | `resolving-merge-conflicts` |
 | 只有人类能完成的凭据、dashboard 或一次性迁移步骤 | `wizard` |
 | 需要将对话或任务交给新 agent | `handoff` |
 | 用户没听懂上一条消息 | `wait-what` |

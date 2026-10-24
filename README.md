@@ -2,7 +2,7 @@
 
 本仓库部分 skills 改编自 [mattpocock/skills](https://github.com/mattpocock/skills)，保留中文翻译和个人定制；使用 `ask-agent` 替代上游的 `ask-matt`。
 
-上游技能内容已按 `mattpocock/skills@5beb35b`（2026-10-19）同步。此仓库保留 `resolving-merge-conflicts` 作为本地定制；上游从 v1.3.0 起将其归档，认为代理无需专门技能即可处理冲突。上游的安装器、issue tracker 配置和文档站点不属于此个人技能仓库。
+上游技能内容已按 `mattpocock/skills@5beb35b`（2026-10-19）同步。上游的安装器、issue tracker 配置和文档站点不属于此个人技能仓库。
 
 ### 工程
 
@@ -31,7 +31,6 @@
 - **[domain-modeling](./engineering/domain-modeling/SKILL.md)** - 建立和打磨项目领域模型，统一术语，维护 `GLOSSARY.md` 与 ADR。
 - **[codebase-design](./engineering/codebase-design/SKILL.md)** - 设计深模块：用小接口和清晰 seam 隐藏大量实现。
 - **[code-review](./engineering/code-review/SKILL.md)** - 从固定版本点做双轴审查：编码标准和需求/spec。
-- **[resolving-merge-conflicts](./engineering/resolving-merge-conflicts/SKILL.md)** - 逐个冲突块理解双方意图，解决正在进行的 merge/rebase 冲突并完成操作。
 - **[wizard](./engineering/wizard/SKILL.md)** - 生成交互式 Bash 向导，引导人类完成凭据配置、第三方后台操作或一次性迁移。
 
 ### 生产力
