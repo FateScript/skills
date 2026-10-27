@@ -6,6 +6,8 @@
 
 `article-summarizer` ，`article-summarizer-2mins` 和 `book-summarizer` 改编自 anarefin 的 [Article Summarizer（SkillMD）](https://skillmd.com/skills/anarefin/article-summarizer)
 
+`who-ate-my-flops` 改编自 [OpenPerfAgent/who-ate-my-flops](https://github.com/OpenPerfAgent/who-ate-my-flops)，固定版本 `20577a5`；将 9 个流程整合为一个中文入口，保留上游工具、模板及 Apache-2.0 许可证。
+
 
 ### 工程
 
@@ -25,6 +27,8 @@
 - **[wayfinder](./engineering/wayfinder/SKILL.md)** - 为大于单次会话容量的大型工作建立决策地图，逐项解决前置决策。
 
 **模型可自动调用：**
+
+- **[who-ate-my-flops](./engineering/who-ate-my-flops/SKILL.md)** - 诊断和优化 PyTorch 任务性能，支持 init、diagnose、optimize 模式，附 trace 分析工具和正确性验证流程。
 
 - **[prototype](./engineering/prototype/SKILL.md)** - 编写一次性原型，快速验证状态模型、业务逻辑或 UI 方案。
 - **[diagnosing-bugs](./engineering/diagnosing-bugs/SKILL.md)** - 用“复现失败 → 缩小范围 → 假设 → 加仪器 → 修复 → 回归测试”的循环诊断困难 bug 和性能回归。

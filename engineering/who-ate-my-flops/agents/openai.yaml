@@ -1,0 +1,3 @@
+interface:
+  display_name: "who-ate-my-flops"
+  short_description: "诊断 PyTorch 任务性能瓶颈，在正确性约束下测量并优化训练或推理"
